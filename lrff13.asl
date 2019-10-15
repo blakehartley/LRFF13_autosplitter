@@ -8,6 +8,7 @@ state("LRFF13")
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
 	byte begin			: "LRFF13.exe", 0x003A09F8, 0xD5;
+	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
 	
 	// Bestiary based addreses
 	int noel			: "LRFF13.exe", 0x04CF6808, 0x398;
@@ -22,12 +23,18 @@ state("LRFF13")
 	// Time addresses
 	byte day			: "LRFF13.exe", 0x04D05430, 0x336;
 	int time			: "LRFF13.exe", 0x020C8E38, 0x18, 0x50;
+	
+	// Menu addresses
+	string16 g1garb		: "LRFF13.exe", 0x04D0525C, 0x110;
+	string16 g1wep		: "LRFF13.exe", 0x04D0525C, 0x160;
 }
 
 init
 {
 	vars.split = false;
 	vars.daysplit = false;
+	vars.shadowEquip = false;
+	vars.museEquip	= false;
 }
 
 startup
@@ -55,12 +62,25 @@ startup
 		settings.Add("eod10Set", false, "Day 10", "eodSet");
 		settings.Add("eod11Set", false, "Day 11", "eodSet");
 		settings.Add("eod12Set", false, "Day 12", "eodSet");
+	
+	settings.Add("menuSet", true, "Menu");
+		settings.Add("shadowSet", false, "Equip Shadow Hunter", "menuSet");
+		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
+}
+
+isLoading
+{
+        return current.isLoading;
 }
 
 start
 {
 	if( current.begin == 189 & old.begin == 192)
 	{
+		vars.split = false;
+		vars.daysplit = false;
+		vars.shadowEquip = false;
+		vars.museEquip	= false;
 		return true;
 	}
 }
@@ -150,7 +170,33 @@ split
 	{
 		vars.daysplit = true;
 	}
-	
+	////////////////////	Menu		////////////////////
+	if( settings["shadowSet"] )// 
+	{
+		if( old.g1wep != "w_ltw_oa00" & current.g1wep == "w_ltw_oa00")
+		{
+			vars.shadowEquip = true;
+		}
+		
+		if(vars.shadowEquip == true & current.menu == 255 & old.menu != 255)
+		{
+			vars.shadowEquip = false;
+			vars.split = true;
+		}
+	}
+	if( settings["dmpSet"] )// 
+	{
+		if( old.g1garb != "Dark Muse+" & current.g1garb == "Dark Muse+")
+		{
+			vars.museEquip = true;
+		}
+		
+		if(vars.museEquip == true & current.menu == 255 & old.menu != 255)
+		{
+			vars.museEquip = false;
+			vars.split = true;
+		}
+	}
 	
 	// Split
 	if(vars.split == true)
