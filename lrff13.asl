@@ -1,12 +1,10 @@
 state("LRFF13")
 {
-	//int begin			: "ffxiii2img.exe", 0x003921EC, 0x4;
-	//short begin2		: "ffxiii2img.exe", 0x003921EC, 0x5;
 	//uint time			: "ffxiii2img.exe", 0x001DA2A0, 0x0;
-	//int battle_base		: "ffxiii2img.exe", 0x0211E3E0, 0x14, 0x0, 0x0;
 	
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
+	byte bover			: "LRFF13.exe", 0x003A09F8, 0xD4;
 	byte begin			: "LRFF13.exe", 0x003A09F8, 0xD5;
 	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
 	
@@ -19,6 +17,7 @@ state("LRFF13")
 	int parandus		: "LRFF13.exe", 0x04CF6808, 0x54C;
 	int cactair			: "LRFF13.exe", 0x04CF6808, 0x4EC;
 	int chimera			: "LRFF13.exe", 0x04CF6808, 0x374;
+	int bhunivelze		: "LRFF13.exe", 0x04CF6808, 0x4F4;
 	
 	// Time addresses
 	byte day			: "LRFF13.exe", 0x04D05430, 0x336;
@@ -196,6 +195,15 @@ split
 			vars.museEquip = false;
 			vars.split = true;
 		}
+	}
+	////////////////////	Bhunivelze		////////////////////
+	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
+	{
+		vars.split = true;
+	}
+	if( current.bhunivelze != 0 & old.bover >= 200 & current.bover < 200 )
+	{
+		vars.split = true;
 	}
 	
 	// Split
