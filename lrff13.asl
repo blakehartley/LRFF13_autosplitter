@@ -196,19 +196,19 @@ split
 		}
 	}
 	////////////////////	Bhunivelze		////////////////////
+	/*if( old.noel == 0 & current.noel != 0 )
+	{
+		vars.time0 = current.time + 8750;
+	}*/
 	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
 	{
-		vars.time0 = current.time + 8750
+		vars.time0 = current.time + 8750;
 	}
 	if( current.time > vars.time0 & old.begin >= 200 & current.begin < 200 )
 	{
 		vars.time0 = 4294967295;
 		return true;
 	}
-	/*if( current.noel != 0 & old.begin >= 200 & current.begin < 100 )
-	{
-		vars.split = true;
-	}*/
 	
 	// Split
 	if(vars.split == true)
