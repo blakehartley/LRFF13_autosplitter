@@ -1,6 +1,6 @@
 state("LRFF13")
 {
-	//uint time			: "ffxiii2img.exe", 0x001DA2A0, 0x0;
+	uint time			: "LRFF13.exe", 0x0026A6F4, 0x34;
 	
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
@@ -34,6 +34,7 @@ init
 	vars.daysplit = false;
 	vars.shadowEquip = false;
 	vars.museEquip	= false;
+	vars.time0 = 4294967295;
 }
 
 startup
@@ -78,8 +79,6 @@ start
 	{
 		vars.split = false;
 		vars.daysplit = false;
-		vars.shadowEquip = false;
-		vars.museEquip	= false;
 		return true;
 	}
 }
@@ -199,12 +198,17 @@ split
 	////////////////////	Bhunivelze		////////////////////
 	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
 	{
-		vars.split = true;
+		vars.time0 = current.time + 8750
 	}
-	if( current.bhunivelze != 0 & old.bover >= 200 & current.bover < 200 )
+	if( current.time > vars.time0 & old.begin >= 200 & current.begin < 200 )
+	{
+		vars.time0 = 4294967295;
+		return true;
+	}
+	/*if( current.noel != 0 & old.begin >= 200 & current.begin < 100 )
 	{
 		vars.split = true;
-	}
+	}*/
 	
 	// Split
 	if(vars.split == true)
