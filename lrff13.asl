@@ -1,11 +1,10 @@
 state("LRFF13")
 {
-	uint time			: "LRFF13.exe", 0x0026A6F4, 0x34;
-	
+	//int time			: "LRFF13.exe", 0x0026A6F4, 0x34;
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
-	byte bover			: "LRFF13.exe", 0x003A09F8, 0xD4;
 	byte begin			: "LRFF13.exe", 0x003A09F8, 0xD5;
+	short bover			: "LRFF13.exe", 0x003A09F8, 0xD5;
 	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
 	
 	// Bestiary based addreses
@@ -35,6 +34,8 @@ init
 	vars.shadowEquip = false;
 	vars.museEquip	= false;
 	vars.time0 = 4294967295;
+	vars.done = false;
+	
 }
 
 startup
@@ -198,15 +199,15 @@ split
 	////////////////////	Bhunivelze		////////////////////
 	/*if( old.noel == 0 & current.noel != 0 )
 	{
-		vars.time0 = current.time + 8750;
+		vars.done = true;
 	}*/
 	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
 	{
-		vars.time0 = current.time + 8750;
+		vars.done = true;
 	}
-	if( current.time > vars.time0 & old.begin >= 200 & current.begin < 200 )
+	if( vars.done == true & old.bover != 24 & current.bover == 24)
 	{
-		vars.time0 = 4294967295;
+		vars.done = false;
 		return true;
 	}
 	
