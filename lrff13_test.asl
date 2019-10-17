@@ -197,11 +197,7 @@ split
 		}
 	}
 	////////////////////	Bhunivelze		////////////////////
-	/*if( old.noel == 0 & current.noel != 0 )
-	{
-		vars.done = true;
-	}*/
-	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
+	if( old.noel == 0 & current.noel != 0 )
 	{
 		vars.done = true;
 	}
@@ -223,21 +219,4 @@ split
 		vars.daysplit = false;
 		return true;
 	}
-	
-	// Split for every fight
-	/*if( old.target == 0 & current.target > 0)
-	{
-		vars.split = true;
-	}*/
-	
-	// Split
-	/*if(vars.split == true)
-	{
-		//if(old.battle_base != current.battle_base)
-		if(current.begin2 < 100 & old.begin2 >= 100)
-		{
-			vars.split = false;
-			return true;
-		}
-	}*/
 }

@@ -197,6 +197,10 @@ split
 		}
 	}
 	////////////////////	Bhunivelze		////////////////////
+	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
+	{
+		vars.done = true;
+	}
 	if( vars.done == true & old.bover != 24 & current.bover == 24)
 	{
 		vars.done = false;
