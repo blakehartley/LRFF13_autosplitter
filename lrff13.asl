@@ -3,6 +3,11 @@ state("LRFF13")
 	//int time			: "LRFF13.exe", 0x0026A6F4, 0x34;
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
+	// Cool stuff
+	byte warp			: "LRFF13.exe", 0x0088DD50, 0x48;// 255 when warping to the ark
+	//byte screen			: "LRFF13.exe", 0x00452B68, 0x0;// Area-change popups
+	
+	
 	byte begin			: "LRFF13.exe", 0x003A09F8, 0xD5;
 	short bover			: "LRFF13.exe", 0x003A09F8, 0xD5;
 	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
@@ -20,7 +25,7 @@ state("LRFF13")
 	
 	// Time addresses
 	byte day			: "LRFF13.exe", 0x04D05430, 0x336;
-	int time			: "LRFF13.exe", 0x020C8E38, 0x18, 0x50;
+	uint time			: "LRFF13.exe", 0x020C8E38, 0x18, 0x50;
 	
 	// Menu addresses
 	string16 g1garb		: "LRFF13.exe", 0x04D0525C, 0x110;
@@ -214,7 +219,7 @@ split
 		return true;
 	}
 	// End of Day Split
-	if(current.isLoading == true & vars.daysplit == true)
+	if( current.warp == 255 & vars.daysplit == true )
 	{
 		vars.daysplit = false;
 		return true;

@@ -197,7 +197,7 @@ split
 		}
 	}
 	////////////////////	Bhunivelze		////////////////////
-	if( old.noel == 0 & current.noel != 0 )
+	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
 	{
 		vars.done = true;
 	}
