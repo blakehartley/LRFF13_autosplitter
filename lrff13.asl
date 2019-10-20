@@ -13,6 +13,7 @@ state("LRFF13")
 	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
 	
 	// Bestiary based addreses
+	//int zaltys			: "LRFF13.exe", 0x04CF6808, 0x52C;
 	int noel			: "LRFF13.exe", 0x04CF6808, 0x398;
 	int choco			: "LRFF13.exe", 0x04CF6808, 0x364;
 	int cyclops			: "LRFF13.exe", 0x04CF6808, 0x544;
@@ -56,6 +57,7 @@ startup
 		settings.Add("chimeraSet", false, "Chimera", "killSet");
 	
 	settings.Add("eodSet", true, "End of Day");
+		settings.Add("eod0Set", false, "Day 0", "eodSet");
 		settings.Add("eod1Set", false, "Day 1", "eodSet");
 		settings.Add("eod2Set", false, "Day 2", "eodSet");
 		settings.Add("eod3Set", false, "Day 3", "eodSet");
@@ -126,6 +128,10 @@ split
 	}
 	
 	////////////////////	End of Day		////////////////////
+	if( settings["eod0Set"] & current.day == 0 & old.time == 1125000000 & current.time == 1350000000 )
+	{
+		vars.daysplit = true;
+	}
 	if( settings["eod1Set"] & current.day == 1 & old.time != 2430000000 & current.time == 2430000000 )
 	{
 		vars.daysplit = true;
