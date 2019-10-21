@@ -31,6 +31,12 @@ state("LRFF13")
 	// Menu addresses
 	string16 g1garb		: "LRFF13.exe", 0x04D0525C, 0x110;
 	string16 g1wep		: "LRFF13.exe", 0x04D0525C, 0x160;
+	
+	// ATB addresses
+	uint atb1			: "LRFF13.exe", 0x01E879F0, 0x8, 0x4, 0x31C;
+	
+	// EP address
+	uint ep				: "LRFF13.exe", 0x012CA950, 0x328;
 }
 
 init
@@ -74,6 +80,8 @@ startup
 	settings.Add("menuSet", true, "Menu");
 		settings.Add("shadowSet", false, "Equip Shadow Hunter", "menuSet");
 		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
+	
+	settings.Add("fightSet", false, "Fight Timer");
 }
 
 isLoading
@@ -83,16 +91,28 @@ isLoading
 
 start
 {
-	if( current.begin == 189 & old.begin == 192)
+	if( settings["fightSet"] == false & current.begin == 189 & old.begin == 192)
 	{
 		vars.split = false;
 		vars.daysplit = false;
+		return true;
+	}
+	
+	////////////////////	Fight Timer		////////////////////
+	if( settings["fightSet"] & current.atb1 != 0 & old.atb1 == 0 )
+	{
 		return true;
 	}
 }
 
 split
 {
+	////////////////////	Fight Timer		////////////////////
+	if( settings["fightSet"] & old.ep < current.ep )
+	{
+		vars.split = true;
+	}
+	
 	////////////////////	Datalog		////////////////////
 	if( settings["noelSet"] & old.noel == 0 & current.noel != 0 )
 	{
