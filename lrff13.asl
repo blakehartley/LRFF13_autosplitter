@@ -33,10 +33,12 @@ state("LRFF13")
 	string16 g1wep		: "LRFF13.exe", 0x04D0525C, 0x160;
 	
 	// ATB addresses
-	uint atb1			: "LRFF13.exe", 0x01E879F0, 0x8, 0x4, 0x31C;
+	//uint atb1			: "LRFF13.exe", 0x01E879F0, 0x8, 0x4, 0x31C;
+	//uint atb1			: "LRFF13.exe", 0x012033DC, 0x220, 0x8, 0x4, 0x31C;
+	uint battle			: "LRFF13.exe", 0x0015408C, 0x0;
 	
 	// EP address
-	uint ep				: "LRFF13.exe", 0x012CA950, 0x328;
+	//uint ep				: "LRFF13.exe", 0x012CA950, 0x328;
 }
 
 init
@@ -99,7 +101,7 @@ start
 	}
 	
 	////////////////////	Fight Timer		////////////////////
-	if( settings["fightSet"] & current.atb1 != 0 & old.atb1 == 0 )
+	if( settings["fightSet"] & current.battle != 0 & old.battle == 0 )
 	{
 		return true;
 	}
@@ -108,7 +110,7 @@ start
 split
 {
 	////////////////////	Fight Timer		////////////////////
-	if( settings["fightSet"] & old.ep < current.ep )
+	if( settings["fightSet"] & current.battle == 0 & old.battle != 0 )
 	{
 		vars.split = true;
 	}
