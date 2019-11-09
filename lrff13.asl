@@ -1,6 +1,6 @@
 state("LRFF13")
 {
-	//int time			: "LRFF13.exe", 0x0026A6F4, 0x34;
+	long gtime			: "LRFF13.exe", 0x0026A6F4, 0x34;
 	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
 	// Cool stuff
@@ -50,6 +50,23 @@ init
 	vars.time0 = 4294967295;
 	vars.done = false;
 	
+	vars.fightStart = 0;
+	vars.fightEnd = 0;
+	vars.fightBool = false;
+	
+	vars.updateFightText = false;
+	vars.tcs0 = null;
+	if (settings["fightTextSet"] == true) {
+		foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
+		  if (component.GetType().Name == "TextComponent") {
+			vars.tc = component;
+			vars.tcs0 = vars.tc.Settings;
+			vars.updateFightText = true;
+			print("Found text component at " + component);
+			break;
+		  }
+		}
+	}
 }
 
 startup
@@ -84,11 +101,49 @@ startup
 		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
 	
 	settings.Add("fightSet", false, "Fight Timer");
+	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
 }
 
 isLoading
 {
         return current.isLoading;
+}
+
+update
+{
+	if(settings["fightTextSet"])
+	{
+		if(current.battle != 0 & old.battle == 0 )
+		{
+			vars.fightStart = current.gtime;
+			vars.fightBool = true;
+		}
+		if( settings["fightTextSet"] & current.battle == 0 & old.battle != 0 )
+		{
+			vars.fightEnd = current.gtime;
+			vars.fightBool = false;
+		}
+		
+		if(vars.fightBool == false)
+		{
+			vars.fightTime = vars.fightEnd - vars.fightStart;
+		}
+		else
+		{
+			vars.fightTime = current.gtime - vars.fightStart;
+		}
+		vars.s = (vars.fightTime/1000.0)%60;
+		vars.m = vars.fightTime/60000;
+		
+		if(vars.s < 10){
+			vars.tcs0.Text1 = vars.m.ToString() + ":0"+vars.s.ToString();
+		}
+		else {
+			vars.tcs0.Text1 = vars.m.ToString() + ":"+vars.s.ToString();
+		}
+		vars.tcs0.Text2 = " ";
+	}
+	return true;
 }
 
 start
@@ -101,7 +156,7 @@ start
 	}
 	
 	////////////////////	Fight Timer		////////////////////
-	if( settings["fightSet"] & current.battle != 0 & old.battle == 0 )
+	if(settings["fightSet"] & current.battle != 0 & old.battle == 0 )
 	{
 		return true;
 	}
@@ -110,9 +165,9 @@ start
 split
 {
 	////////////////////	Fight Timer		////////////////////
-	if( settings["fightSet"] & current.battle == 0 & old.battle != 0 )
+	if(settings["fightSet"] & current.battle == 0 & old.battle != 0 )
 	{
-		vars.split = true;
+		return true;
 	}
 	
 	////////////////////	Datalog		////////////////////
