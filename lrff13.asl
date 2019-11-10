@@ -132,7 +132,7 @@ update
 		{
 			//vars.fightTime = current.gtime - vars.fightStart;
 		}
-		vars.s = (((vars.fightTime)/10)/100.0)%60;
+		vars.s = (((vars.fightTime)/10)%6000)/100.0;
 		vars.m = vars.fightTime/60000;
 		
 		vars.tcs0.Text1 = "Last Battle Time";
