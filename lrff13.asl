@@ -130,7 +130,7 @@ update
 		}
 		else
 		{
-			vars.fightTime = current.gtime - vars.fightStart;
+			//vars.fightTime = current.gtime - vars.fightStart;
 		}
 		vars.s = (((vars.fightTime)/10)/100.0)%60;
 		vars.m = vars.fightTime/60000;
@@ -140,7 +140,7 @@ update
 		{
 			if(vars.fightTime == 0)
 			{
-				vars.tcs0.Text2 = " ";
+				vars.tcs0.Text2 = "0";
 			}
 			else
 			{
