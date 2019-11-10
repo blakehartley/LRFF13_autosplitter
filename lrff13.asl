@@ -135,21 +135,29 @@ update
 		vars.s = (((vars.fightTime)/10)/100.0)%60;
 		vars.m = vars.fightTime/60000;
 		
-		vars.tcs0.Text1 = "Last Battle Time:";
+		vars.tcs0.Text1 = "Last Battle Time";
 		if(vars.m == 0)
 		{
-			vars.tcs0.Text2 = vars.s.ToString();
+			if(vars.fightTime == 0)
+			{
+				vars.tcs0.Text2 = " ";
+			}
+			else
+			{
+				vars.tcs0.Text2 = vars.s.ToString().PadRight(4,'0');
+			}
 		}
 		else
 		{
-			if(vars.s < 10){
-				vars.tcs0.Text2 = vars.m.ToString() + ":0"+vars.s.ToString();
+			if(vars.s < 10)
+			{
+				vars.tcs0.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
 			}
 			else {
-				vars.tcs0.Text2 = vars.m.ToString() + ":"+vars.s.ToString();
+				vars.tcs0.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
 			}
 		}
-		
+		//vars.tcs0.Text2 = " ";
 	}
 	return true;
 }
