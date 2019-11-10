@@ -132,16 +132,24 @@ update
 		{
 			vars.fightTime = current.gtime - vars.fightStart;
 		}
-		vars.s = (vars.fightTime/1000.0)%60;
+		vars.s = (((vars.fightTime)/10)/100.0)%60;
 		vars.m = vars.fightTime/60000;
 		
-		if(vars.s < 10){
-			vars.tcs0.Text1 = vars.m.ToString() + ":0"+vars.s.ToString();
+		vars.tcs0.Text1 = "Last Battle Time:";
+		if(vars.m == 0)
+		{
+			vars.tcs0.Text2 = vars.s.ToString();
 		}
-		else {
-			vars.tcs0.Text1 = vars.m.ToString() + ":"+vars.s.ToString();
+		else
+		{
+			if(vars.s < 10){
+				vars.tcs0.Text2 = vars.m.ToString() + ":0"+vars.s.ToString();
+			}
+			else {
+				vars.tcs0.Text2 = vars.m.ToString() + ":"+vars.s.ToString();
+			}
 		}
-		vars.tcs0.Text2 = " ";
+		vars.tcs0.Text3 = "	";
 	}
 	return true;
 }
