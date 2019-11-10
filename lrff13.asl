@@ -149,7 +149,7 @@ update
 				vars.tcs0.Text2 = vars.m.ToString() + ":"+vars.s.ToString();
 			}
 		}
-		vars.tcs0.Text3 = "	";
+		
 	}
 	return true;
 }
