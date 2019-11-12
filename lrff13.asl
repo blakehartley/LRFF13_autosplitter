@@ -58,11 +58,14 @@ init
 	vars.menuStart = 0;
 	vars.menuEnd = 0;
 	
-	vars.comp_array = new LiveSplit.UI.Components.IComponent [2];
+	vars.encounterCount = 0;
+	
+	vars.comp_array = new LiveSplit.UI.Components.IComponent [3];
 	
 	vars.arrNum = 0;
 	vars.fightTextNum = -1;
 	vars.menuTextNum = -1;
+	vars.encounterTextNum = -1;
 	foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
 	  if (component.GetType().Name == "TextComponent") {
 		if (settings["fightTextSet"] == true & vars.fightTextNum == -1) {
@@ -76,6 +79,13 @@ init
 			vars.comp_array[vars.arrNum] = component;
 			vars.comp_array[vars.arrNum].Settings.Text1 = "Last Menu Time";
 			vars.menuTextNum = vars.arrNum;
+			vars.arrNum++;
+			continue;
+		}
+		if (settings["encounterTextSet"] == true & vars.encounterTextNum == -1) {
+			vars.comp_array[vars.arrNum] = component;
+			vars.comp_array[vars.arrNum].Settings.Text1 = "Encounters";
+			vars.encounterTextNum = vars.arrNum;
 			vars.arrNum++;
 			continue;
 		}
@@ -116,6 +126,7 @@ startup
 	
 	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
 	settings.Add("menuTextSet", false, "Override text component with a Menu Timer");
+	settings.Add("encounterTextSet", false, "Override text component with an Encounter Counter");
 }
 
 isLoading
@@ -147,7 +158,6 @@ update
 		{
 			if(vars.fightTime == 0)
 			{
-				
 				vars.tcs.Text2 = "0";
 			}
 			else
@@ -189,7 +199,6 @@ update
 		{
 			if(vars.menuTime == 0)
 			{
-				
 				vars.tcs.Text2 = "0";
 			}
 			else
@@ -209,6 +218,17 @@ update
 		}
 	}
 	
+	if(settings["encounterTextSet"])
+	{
+		if(current.battle != 0 & old.battle == 0 )
+		{
+			vars.encounterCount++;
+		}
+		
+		vars.tcs = vars.comp_array[vars.encounterTextNum].Settings;
+		vars.tcs.Text2 = vars.encounterCount.ToString();
+	}
+	
 	return true;
 }
 
@@ -218,6 +238,9 @@ start
 	{
 		vars.split = false;
 		vars.daysplit = false;
+		vars.fightTime = 0;
+		vars.menuTime = 0;
+		vars.encounterCount = 0;
 		return true;
 	}
 }
