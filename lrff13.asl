@@ -50,22 +50,36 @@ init
 	vars.time0 = 4294967295;
 	vars.done = false;
 	
+	vars.fightTime = 0;
 	vars.fightStart = 0;
 	vars.fightEnd = 0;
-	vars.fightBool = false;
 	
-	vars.updateFightText = false;
-	vars.tcs0 = null;
-	if (settings["fightTextSet"] == true) {
-		foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
-		  if (component.GetType().Name == "TextComponent") {
-			vars.tc = component;
-			vars.tcs0 = vars.tc.Settings;
-			vars.updateFightText = true;
-			print("Found text component at " + component);
-			break;
-		  }
+	vars.menuTime = 0;
+	vars.menuStart = 0;
+	vars.menuEnd = 0;
+	
+	vars.comp_array = new LiveSplit.UI.Components.IComponent [2];
+	
+	vars.arrNum = 0;
+	vars.fightTextNum = -1;
+	vars.menuTextNum = -1;
+	foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
+	  if (component.GetType().Name == "TextComponent") {
+		if (settings["fightTextSet"] == true & vars.fightTextNum == -1) {
+			vars.comp_array[vars.arrNum] = component;
+			vars.comp_array[vars.arrNum].Settings.Text1 = "Last Battle Time";
+			vars.fightTextNum = vars.arrNum;
+			vars.arrNum++;
+			continue;
 		}
+		if (settings["menuTextSet"] == true & vars.menuTextNum == -1) {
+			vars.comp_array[vars.arrNum] = component;
+			vars.comp_array[vars.arrNum].Settings.Text1 = "Last Menu Time";
+			vars.menuTextNum = vars.arrNum;
+			vars.arrNum++;
+			continue;
+		}
+	  }
 	}
 }
 
@@ -101,6 +115,7 @@ startup
 		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
 	
 	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
+	settings.Add("menuTextSet", false, "Override text component with a Menu Timer");
 }
 
 isLoading
@@ -115,49 +130,85 @@ update
 		if(current.battle != 0 & old.battle == 0 )
 		{
 			vars.fightStart = current.gtime;
-			vars.fightBool = true;
 		}
-		if( settings["fightTextSet"] & current.battle == 0 & old.battle != 0 )
+		if( current.battle == 0 & old.battle != 0 )
 		{
 			vars.fightEnd = current.gtime;
-			vars.fightBool = false;
 		}
-		
-		if(vars.fightBool == false)
+		if(vars.fightEnd > vars.fightStart)
 		{
 			vars.fightTime = vars.fightEnd - vars.fightStart;
 		}
-		else
-		{
-			//vars.fightTime = current.gtime - vars.fightStart;
-		}
+		
+		vars.tcs = vars.comp_array[vars.fightTextNum].Settings;
 		vars.s = (((vars.fightTime)/10)%6000)/100.0;
 		vars.m = vars.fightTime/60000;
-		
-		vars.tcs0.Text1 = "Last Battle Time";
 		if(vars.m == 0)
 		{
 			if(vars.fightTime == 0)
 			{
-				vars.tcs0.Text2 = "0";
+				
+				vars.tcs.Text2 = "0";
 			}
 			else
 			{
-				vars.tcs0.Text2 = vars.s.ToString().PadRight(4,'0');
+				vars.tcs.Text2 = vars.s.ToString().PadRight(4,'0');
 			}
 		}
 		else
 		{
 			if(vars.s < 10)
 			{
-				vars.tcs0.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
+				vars.tcs.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
 			}
 			else {
-				vars.tcs0.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
+				vars.tcs.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
 			}
 		}
-		//vars.tcs0.Text2 = " ";
 	}
+	
+	if(settings["menuTextSet"])
+	{
+		if( current.menu != 255 & old.menu == 255 )
+		{
+			vars.menuStart = current.gtime;
+		}
+		if( current.menu == 255 & old.menu != 255 )
+		{
+			vars.menuEnd = current.gtime;
+		}
+		if( vars.menuEnd > vars.menuStart)
+		{
+			vars.menuTime = vars.menuEnd - vars.menuStart;
+		}
+		
+		vars.tcs = vars.comp_array[vars.menuTextNum].Settings;
+		vars.s = (((vars.menuTime)/10)%6000)/100.0;
+		vars.m = vars.menuTime/60000;
+		if(vars.m == 0)
+		{
+			if(vars.menuTime == 0)
+			{
+				
+				vars.tcs.Text2 = "0";
+			}
+			else
+			{
+				vars.tcs.Text2 = vars.s.ToString().PadRight(4,'0');
+			}
+		}
+		else
+		{
+			if(vars.s < 10)
+			{
+				vars.tcs.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
+			}
+			else {
+				vars.tcs.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
+			}
+		}
+	}
+	
 	return true;
 }
 
