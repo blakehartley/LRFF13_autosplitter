@@ -100,7 +100,6 @@ startup
 		settings.Add("shadowSet", false, "Equip Shadow Hunter", "menuSet");
 		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
 	
-	settings.Add("fightSet", false, "Fight Timer");
 	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
 }
 
@@ -164,28 +163,16 @@ update
 
 start
 {
-	if( settings["fightSet"] == false & current.begin == 189 & old.begin == 192)
+	if( current.begin == 189 & old.begin == 192)
 	{
 		vars.split = false;
 		vars.daysplit = false;
 		return true;
 	}
-	
-	////////////////////	Fight Timer		////////////////////
-	if(settings["fightSet"] & current.battle != 0 & old.battle == 0 )
-	{
-		return true;
-	}
 }
 
 split
-{
-	////////////////////	Fight Timer		////////////////////
-	if(settings["fightSet"] & current.battle == 0 & old.battle != 0 )
-	{
-		return true;
-	}
-	
+{	
 	////////////////////	Datalog		////////////////////
 	if( settings["noelSet"] & old.noel == 0 & current.noel != 0 )
 	{
