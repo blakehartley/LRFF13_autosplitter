@@ -146,7 +146,7 @@ update
 		{
 			vars.fightEnd = current.gtime;
 		}
-		if(vars.fightEnd > vars.fightStart)
+		if(vars.fightEnd >= vars.fightStart)
 		{
 			vars.fightTime = vars.fightEnd - vars.fightStart;
 		}
@@ -187,7 +187,7 @@ update
 		{
 			vars.menuEnd = current.gtime;
 		}
-		if( vars.menuEnd > vars.menuStart)
+		if( vars.menuEnd >= vars.menuStart)
 		{
 			vars.menuTime = vars.menuEnd - vars.menuStart;
 		}
@@ -238,8 +238,10 @@ start
 	{
 		vars.split = false;
 		vars.daysplit = false;
-		vars.fightTime = 0;
-		vars.menuTime = 0;
+		vars.fightEnd = 0;
+		vars.fightStart = 0;
+		vars.menuStart = 0;
+		vars.menuEnd = 0;
 		vars.encounterCount = 0;
 		return true;
 	}
