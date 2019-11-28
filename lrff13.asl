@@ -1,7 +1,7 @@
 state("LRFF13")
 {
 	long gtime			: "LRFF13.exe", 0x0026A6F4, 0x34;
-	bool isLoading 		: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
+	bool isLoading0 	: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
 	
 	// Cool stuff
 	byte warp			: "LRFF13.exe", 0x0088DD50, 0x48;// 255 when warping to the ark
@@ -39,6 +39,13 @@ state("LRFF13")
 	
 	// EP address
 	//uint ep				: "LRFF13.exe", 0x012CA950, 0x328;
+	
+	// Load Remover Addresses
+	uint loading 		: "LRFF13.exe", 0x0088DD50, 0x24;
+	uint interval		: "LRFF13.exe", 0x020C8E38, 0x18, 0x98;
+	byte paused			: "LRFF13.exe", 0x003B91D8, 0x0;
+	byte saving			: "LRFF13.exe", 0x0086C4F0, 0x3;
+	byte ingame			: "LRFF13.exe", 0x000877D0, 0x0;
 }
 
 init
@@ -121,7 +128,6 @@ startup
 		settings.Add("eod12Set", false, "Day 12", "eodSet");
 	
 	settings.Add("menuSet", true, "Menu");
-		settings.Add("shadowSet", false, "Equip Shadow Hunter", "menuSet");
 		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
 	
 	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
@@ -131,7 +137,30 @@ startup
 
 isLoading
 {
-        return current.isLoading;
+	vars.loadingVal = false;
+	
+	if(current.isLoading0)
+	{
+		vars.loadingVal = true;
+	}
+	else if(	current.loading == 0 &
+				current.interval == 0 &
+				current.battle == 0 &
+				current.menu == 255 &
+				current.paused == 0 &
+				current.saving != 192 &
+				current.ingame != 255 &
+				current.bhunivelze == 0)
+	{
+		vars.loadingVal = true;
+	}
+	else
+	{
+		vars.loadingVal = false;
+	}
+	
+	return vars.loadingVal;
+	
 }
 
 update
@@ -162,7 +191,7 @@ update
 			}
 			else
 			{
-				vars.tcs.Text2 = vars.s.ToString().PadRight(4,'0');
+				vars.tcs.Text2 = vars.s.ToString().PadRight(3,'0');
 			}
 		}
 		else
@@ -337,19 +366,6 @@ split
 		vars.daysplit = true;
 	}
 	////////////////////	Menu		////////////////////
-	if( settings["shadowSet"] )// 
-	{
-		if( old.g1wep != "w_ltw_oa00" & current.g1wep == "w_ltw_oa00")
-		{
-			vars.shadowEquip = true;
-		}
-		
-		if(vars.shadowEquip == true & current.menu == 255 & old.menu != 255)
-		{
-			vars.shadowEquip = false;
-			vars.split = true;
-		}
-	}
 	if( settings["dmpSet"] )// 
 	{
 		if( old.g1garb != "Dark Muse+" & current.g1garb == "Dark Muse+")
