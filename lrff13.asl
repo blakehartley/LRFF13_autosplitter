@@ -394,7 +394,10 @@ split
 	if(vars.split == true)
 	{
 		vars.split = false;
-		return true;
+		if(current.ingame != 255)
+		{
+			return true;
+		}
 	}
 	// End of Day Split
 	if( current.warp == 255 & vars.daysplit == true )
