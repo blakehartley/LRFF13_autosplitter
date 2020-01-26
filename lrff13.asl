@@ -73,15 +73,15 @@ init
 	vars.fightTextNum = -1;
 	vars.menuTextNum = -1;
 	vars.encounterTextNum = -1;
-	foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
-	  if (component.GetType().Name == "TextComponent") {
-		if (settings["fightTextSet"] == true & vars.fightTextNum == -1) {
-			vars.comp_array[vars.arrNum] = component;
-			vars.comp_array[vars.arrNum].Settings.Text1 = "Last Battle Time";
-			vars.fightTextNum = vars.arrNum;
-			vars.arrNum++;
-			continue;
-		}
+foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
+  if (component.GetType().Name == "TextComponent") {
+	if (settings["fightTextSet"] == true & vars.fightTextNum == -1) {
+		vars.comp_array[vars.arrNum] = component;
+		vars.comp_array[vars.arrNum].Settings.Text1 = "Last Battle Time";
+		vars.fightTextNum = vars.arrNum;
+		vars.arrNum++;
+		continue;
+	}
 		if (settings["menuTextSet"] == true & vars.menuTextNum == -1) {
 			vars.comp_array[vars.arrNum] = component;
 			vars.comp_array[vars.arrNum].Settings.Text1 = "Last Menu Time";
@@ -98,6 +98,13 @@ init
 		}
 	  }
 	}
+	
+	/*foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
+	  if (component.GetType().Name == "CounterComponent") {
+		component.Settings.Count += 1;
+		continue;
+	  }
+	}*/
 }
 
 startup
@@ -160,7 +167,6 @@ isLoading
 	}
 	
 	return vars.loadingVal;
-	
 }
 
 update
@@ -264,6 +270,17 @@ update
 start
 {
 	if( current.begin == 189 & old.begin == 192)
+	{
+		vars.split = false;
+		vars.daysplit = false;
+		vars.fightEnd = 0;
+		vars.fightStart = 0;
+		vars.menuStart = 0;
+		vars.menuEnd = 0;
+		vars.encounterCount = 0;
+		return true;
+	}
+	if( current.begin == 181 & old.begin == 184)
 	{
 		vars.split = false;
 		vars.daysplit = false;
