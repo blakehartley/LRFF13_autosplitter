@@ -397,7 +397,7 @@ split
 		}
 	}
 	////////////////////	Bhunivelze		////////////////////
-	if( old.bhunivelze == 0 & current.bhunivelze != 0 )
+	if( old.bhunivelze == 0 & current.bhunivelze != 0 & old.battle != 0 )
 	{
 		vars.done = true;
 	}
