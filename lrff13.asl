@@ -1,55 +1,62 @@
-state("LRFF13")
+// Steam build of 2021-06-23 (July 2021 patch).
+state("LRFF13", "2021")
 {
-	long gtime			: "LRFF13.exe", 0x0026A6F4, 0x34;
-	bool isLoading0 	: "LRFF13.exe", 0x1F9F8E4, 0x50, 0x2DC;
+	long gtime			: "LRFF13.exe", 0x00269C34, 0x34;
+	bool isLoading0 	: "LRFF13.exe", 0x1FA08E4, 0x50, 0x2DC;
 	
 	// Cool stuff
-	byte warp			: "LRFF13.exe", 0x0088DD50, 0x48;// 255 when warping to the ark
 	//byte screen			: "LRFF13.exe", 0x00452B68, 0x0;// Area-change popups
 	
 	
-	byte begin			: "LRFF13.exe", 0x003A09F8, 0xD5;
-	short bover			: "LRFF13.exe", 0x003A09F8, 0xD5;
-	byte menu			: "LRFF13.exe", 0x003B2A98, 0x0;
+	byte begin			: "LRFF13.exe", 0x0039FF78, 0xD5;
+	short bover			: "LRFF13.exe", 0x0039FF78, 0xD5;
+	byte menu			: "LRFF13.exe", 0x003B2008, 0x0;
+	byte sfxVoices		: "LRFF13.exe", 0x04D1BA40;// UI sound voices playing; +3 in one frame on "start game"
 	
 	// Bestiary based addreses
-	//int zaltys			: "LRFF13.exe", 0x04CF6808, 0x52C;
-	int noel			: "LRFF13.exe", 0x04CF6808, 0x398;
-	int choco			: "LRFF13.exe", 0x04CF6808, 0x364;
-	int cyclops			: "LRFF13.exe", 0x04CF6808, 0x544;
-	int snow			: "LRFF13.exe", 0x04CF6808, 0x55C;
-	int caius			: "LRFF13.exe", 0x04CF6808, 0x254;
-	int parandus		: "LRFF13.exe", 0x04CF6808, 0x54C;
-	int cactair			: "LRFF13.exe", 0x04CF6808, 0x4EC;
-	int chimera			: "LRFF13.exe", 0x04CF6808, 0x374;
-	int bhunivelze		: "LRFF13.exe", 0x04CF6808, 0x4F4;
+	//int zaltys			: "LRFF13.exe", 0x04CF7818, 0x52C;
+	int noel			: "LRFF13.exe", 0x04CF7818, 0x398;
+	int choco			: "LRFF13.exe", 0x04CF7818, 0x364;
+	int cyclops			: "LRFF13.exe", 0x04CF7818, 0x544;
+	int snow			: "LRFF13.exe", 0x04CF7818, 0x55C;
+	int caius			: "LRFF13.exe", 0x04CF7818, 0x254;
+	int parandus		: "LRFF13.exe", 0x04CF7818, 0x54C;
+	int cactair			: "LRFF13.exe", 0x04CF7818, 0x4EC;
+	int chimera			: "LRFF13.exe", 0x04CF7818, 0x374;
+	int bhunivelze		: "LRFF13.exe", 0x04CF7818, 0x4F4;
 	
 	// Time addresses
-	byte day			: "LRFF13.exe", 0x04D05430, 0x336;
-	uint time			: "LRFF13.exe", 0x020C8E38, 0x18, 0x50;
+	byte day			: "LRFF13.exe", 0x04D06440, 0x336;
+	uint time			: "LRFF13.exe", 0x020C9E38, 0x18, 0x50;
 	
 	// Menu addresses
-	string16 g1garb		: "LRFF13.exe", 0x04D0525C, 0x110;
-	string16 g1wep		: "LRFF13.exe", 0x04D0525C, 0x160;
+	string16 g1garb		: "LRFF13.exe", 0x04D0626C, 0x110;
+	string16 g1wep		: "LRFF13.exe", 0x04D0626C, 0x160;
+	uint garbBase		: "LRFF13.exe", 0x04D0626C;// the JP build stores the names at +0x110 as Shift-JIS (cp932), not UTF-16
 	
 	// ATB addresses
 	//uint atb1			: "LRFF13.exe", 0x01E879F0, 0x8, 0x4, 0x31C;
 	//uint atb1			: "LRFF13.exe", 0x012033DC, 0x220, 0x8, 0x4, 0x31C;
-	uint battle			: "LRFF13.exe", 0x0015408C, 0x0;
+	uint battle			: "LRFF13.exe", 0x0015365C, 0x0;
 	
 	// EP address
 	//uint ep				: "LRFF13.exe", 0x012CA950, 0x328;
 	
 	// Load Remover Addresses
-	uint loading 		: "LRFF13.exe", 0x0088DD50, 0x24;
-	uint interval		: "LRFF13.exe", 0x020C8E38, 0x18, 0x98;
-	byte paused			: "LRFF13.exe", 0x003B91D8, 0x0;
-	byte saving			: "LRFF13.exe", 0x0086C4F0, 0x3;
-	byte ingame			: "LRFF13.exe", 0x000877D0, 0x0;
+	uint loading 		: "LRFF13.exe", 0x008A42A0, 0x24;
+	uint interval		: "LRFF13.exe", 0x020C9E38, 0x18, 0x98;
+	byte paused			: "LRFF13.exe", 0x003B8738, 0x0;
+	byte saving			: "LRFF13.exe", 0x00882AE0, 0x3;
+	byte ingame			: "LRFF13.exe", 0x00086F90, 0x0;
 }
 
 init
 {
+	int size = modules.First().ModuleMemorySize;
+	if (size == 0x4E48000) version = "2021";
+	else version = "unknown 0x" + size.ToString("X");
+	print("[LRFF13] ModuleMemorySize=0x" + size.ToString("X") + " version=" + version);
+	
 	vars.split = false;
 	vars.daysplit = false;
 	vars.shadowEquip = false;
@@ -99,6 +106,9 @@ foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components
 	  }
 	}
 	
+	if ((settings["fightTextSet"] & vars.fightTextNum == -1) | (settings["menuTextSet"] & vars.menuTextNum == -1) | (settings["encounterTextSet"] & vars.encounterTextNum == -1))
+		print("[LRFF13] WARNING: a text-override setting is on but the layout does not have enough Text components; that display is skipped");
+	
 	/*foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components) {
 	  if (component.GetType().Name == "CounterComponent") {
 		component.Settings.Count += 1;
@@ -109,37 +119,42 @@ foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components
 
 startup
 {
-	settings.Add("killSet", true, "Bestiary");
-		settings.Add("noelSet", false, "Noel", "killSet");
-		settings.Add("chocoSet", false, "Chocobo eater", "killSet");
-		settings.Add("cyclopsSet", false, "Cyclops", "killSet");
-		settings.Add("snowSet", false, "Snow", "killSet");
-		settings.Add("caiusSet", false, "Caius", "killSet");
-		settings.Add("parandusSet", false, "Parandus", "killSet");
-		settings.Add("cactairSet", false, "Cactair", "killSet");
-		settings.Add("chimeraSet", false, "Chimera", "killSet");
+	vars.finalDrop = false;
+	vars.garbName = "";
+	vars.oldGarbName = "";
 	
-	settings.Add("eodSet", true, "End of Day");
-		settings.Add("eod0Set", false, "Day 0", "eodSet");
-		settings.Add("eod1Set", false, "Day 1", "eodSet");
-		settings.Add("eod2Set", false, "Day 2", "eodSet");
-		settings.Add("eod3Set", false, "Day 3", "eodSet");
-		settings.Add("eod4Set", false, "Day 4", "eodSet");
-		settings.Add("eod5Set", false, "Day 5", "eodSet");
-		settings.Add("eod6Set", false, "Day 6", "eodSet");
-		settings.Add("eod7Set", false, "Day 7", "eodSet");
-		settings.Add("eod8Set", false, "Day 8", "eodSet");
-		settings.Add("eod9Set", false, "Day 9", "eodSet");
-		settings.Add("eod10Set", false, "Day 10", "eodSet");
-		settings.Add("eod11Set", false, "Day 11", "eodSet");
-		settings.Add("eod12Set", false, "Day 12", "eodSet");
+	settings.Add("killSet", true, "Bestiary / エネミー");
+		settings.Add("noelSet", false, "Noel / ノエル", "killSet");
+		settings.Add("chocoSet", false, "Chocobo Eater / チョコボイーター", "killSet");
+		settings.Add("cyclopsSet", false, "Cyclops / サイクロプス", "killSet");
+		settings.Add("snowSet", false, "Snow / スノウ", "killSet");
+		settings.Add("caiusSet", false, "Caius / カイアス", "killSet");
+		settings.Add("parandusSet", false, "Parandus / パランドゥス", "killSet");
+		settings.Add("cactairSet", false, "Cactair / ボサテンダー", "killSet");
+		settings.Add("chimeraSet", false, "Chimera / キマイラ", "killSet");
 	
-	settings.Add("menuSet", true, "Menu");
-		settings.Add("dmpSet", false, "Equip Dark Muse+", "menuSet");
+	settings.Add("eodSet", true, "End of Day / 日付終了");
+		settings.Add("eod0Set", false, "Day 0 / 0日目", "eodSet");
+		settings.Add("eod1Set", false, "Day 1 / 1日目", "eodSet");
+		settings.Add("eod2Set", false, "Day 2 / 2日目", "eodSet");
+		settings.Add("eod3Set", false, "Day 3 / 3日目", "eodSet");
+		settings.Add("eod4Set", false, "Day 4 / 4日目", "eodSet");
+		settings.Add("eod5Set", false, "Day 5 / 5日目", "eodSet");
+		settings.Add("eod6Set", false, "Day 6 / 6日目", "eodSet");
+		settings.Add("eod7Set", false, "Day 7 / 7日目", "eodSet");
+		settings.Add("eod8Set", false, "Day 8 / 8日目", "eodSet");
+		settings.Add("eod9Set", false, "Day 9 / 9日目", "eodSet");
+		settings.Add("eod10Set", false, "Day 10 / 10日目", "eodSet");
+		settings.Add("eod11Set", false, "Day 11 / 11日目", "eodSet");
+		settings.Add("eod12Set", false, "Day 12 / 12日目", "eodSet");
 	
-	settings.Add("fightTextSet", false, "Override text component with a Fight Timer");
-	settings.Add("menuTextSet", false, "Override text component with a Menu Timer");
-	settings.Add("encounterTextSet", false, "Override text component with an Encounter Counter");
+	settings.Add("menuSet", true, "Menu / メニュー");
+		settings.Add("dmpSet", false, "Equip Dark Muse+ / ダークミューズ改", "menuSet");
+	
+	settings.Add("fightTextSet", false, "Override text component with a Fight Timer / Textに戦闘時間を表示");
+	settings.Add("menuTextSet", false, "Override text component with a Menu Timer / Textにメニュー操作時間を表示");
+	settings.Add("encounterTextSet", false, "Override text component with an Encounter Counter / Textにエンカウント数を表示");
+	refreshRate = 60;
 }
 
 isLoading
@@ -171,7 +186,31 @@ isLoading
 
 update
 {
-	if(settings["fightTextSet"])
+	if (version != "2021") return false;	// unsupported build: no start, split or load removal
+	
+	refreshRate = current.ingame == 255 ? 240 : 60;
+	
+	vars.oldGarbName = vars.garbName;	// split runs after update, so take the previous name here
+	string nm = "";
+	if (current.garbBase != 0)
+	{
+		byte[] gb = memory.ReadBytes(new IntPtr((long)current.garbBase + 0x110), 32);
+		if (gb != null)
+		{
+			int n = Array.IndexOf(gb, (byte)0); if (n < 0) n = gb.Length;
+			nm = System.Text.Encoding.GetEncoding(932).GetString(gb, 0, n);
+		}
+	}
+	// UTF-16 fallback (the 2016 build stored the names this way); keep it until the EN release is checked.
+	if (current.g1garb == "Dark Muse+") nm = current.g1garb;
+	vars.garbName = nm;
+	
+	// Final split helper: the result screen's last page sits at bover ~232 (238 in another run; the
+	// layout shifts with its contents, also when mashing skips the animation) and the closing confirm
+	// drops it by ~90 to ~142. The kill itself drops ~316 -> ~30, which the floor of 100 excludes.
+	vars.finalDrop = vars.done & old.bover >= 200 & old.bover <= 280 & current.bover >= 100 & current.bover <= 200 & old.bover - current.bover >= 60;
+	
+	if(settings["fightTextSet"] & vars.fightTextNum != -1)
 	{
 		if(current.battle != 0 & old.battle == 0 )
 		{
@@ -197,22 +236,16 @@ update
 			}
 			else
 			{
-				vars.tcs.Text2 = vars.s.ToString().PadRight(3,'0');
+				vars.tcs.Text2 = vars.s.ToString("0.00");
 			}
 		}
 		else
 		{
-			if(vars.s < 10)
-			{
-				vars.tcs.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
-			}
-			else {
-				vars.tcs.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
-			}
+			vars.tcs.Text2 = vars.m.ToString() + ":" + vars.s.ToString("00.00");
 		}
 	}
 	
-	if(settings["menuTextSet"])
+	if(settings["menuTextSet"] & vars.menuTextNum != -1)
 	{
 		if( current.menu != 255 & old.menu == 255 )
 		{
@@ -238,22 +271,16 @@ update
 			}
 			else
 			{
-				vars.tcs.Text2 = vars.s.ToString().PadRight(4,'0');
+				vars.tcs.Text2 = vars.s.ToString("0.00");
 			}
 		}
 		else
 		{
-			if(vars.s < 10)
-			{
-				vars.tcs.Text2 = vars.m.ToString() + ":0"+vars.s.ToString().PadRight(3,'0');
-			}
-			else {
-				vars.tcs.Text2 = vars.m.ToString() + ":"+vars.s.ToString().PadRight(3,'0');
-			}
+			vars.tcs.Text2 = vars.m.ToString() + ":" + vars.s.ToString("00.00");
 		}
 	}
 	
-	if(settings["encounterTextSet"])
+	if(settings["encounterTextSet"] & vars.encounterTextNum != -1)
 	{
 		if(current.battle != 0 & old.battle == 0 )
 		{
@@ -269,7 +296,11 @@ update
 
 start
 {
-	if( current.begin == 189 & old.begin == 192)
+	// Starting the game on its confirm dialog (begin == 134 for NORMAL, 138 for EASY) starts two
+	// UI sounds in the same frame, so the voice count jumps by 3 (every other menu input adds 1,
+	// and Cancel on the same dialog also fades begin 134 -> 131 or 138 -> 135). Measured 7-16 ms
+	// after the key press, one frame before the fade.
+	if (current.ingame == 255 & (old.begin == 134 | old.begin == 138) & current.sfxVoices - old.sfxVoices >= 2)
 	{
 		vars.split = false;
 		vars.daysplit = false;
@@ -278,17 +309,7 @@ start
 		vars.menuStart = 0;
 		vars.menuEnd = 0;
 		vars.encounterCount = 0;
-		return true;
-	}
-	if( current.begin == 181 & old.begin == 184)
-	{
-		vars.split = false;
-		vars.daysplit = false;
-		vars.fightEnd = 0;
-		vars.fightStart = 0;
-		vars.menuStart = 0;
-		vars.menuEnd = 0;
-		vars.encounterCount = 0;
+		vars.done = false;
 		return true;
 	}
 }
@@ -383,9 +404,12 @@ split
 		vars.daysplit = true;
 	}
 	////////////////////	Menu		////////////////////
-	if( settings["dmpSet"] )// 
+	if( settings["dmpSet"] )
 	{
-		if( old.g1garb != "Dark Muse+" & current.g1garb == "Dark Muse+")
+		// The JP name of Dark Muse+ is "ダークミューズ改" (measured).
+		bool dmpNow = vars.garbName == "Dark Muse+" | vars.garbName == "ダークミューズ改";
+		bool dmpOld = vars.oldGarbName == "Dark Muse+" | vars.oldGarbName == "ダークミューズ改";
+		if( !dmpOld & dmpNow )
 		{
 			vars.museEquip = true;
 		}
@@ -401,7 +425,9 @@ split
 	{
 		vars.done = true;
 	}
-	if( vars.done == true & old.bover != 24 & current.bover == 24)
+	// The last confirm on the result screen drops bover ~232 -> ~142 1-2 frames after the press
+	// (4 measured runs, slow and mashed). On this build bover can jump past 24 (31 -> 19).
+	if( vars.done == true & vars.finalDrop )
 	{
 		vars.done = false;
 		return true;
@@ -417,7 +443,9 @@ split
 		}
 	}
 	// End of Day Split
-	if( current.warp == 255 & vars.daysplit == true )
+	// Split the moment the clock reaches the end-of-day value. On this build the old warp byte
+	// (0x8A42A0, 0x48) only sticks at 255 7.4 s later, so it is not waited for.
+	if( vars.daysplit == true )
 	{
 		vars.daysplit = false;
 		return true;
