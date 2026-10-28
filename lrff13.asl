@@ -120,6 +120,7 @@ foreach (LiveSplit.UI.Components.IComponent component in timer.Layout.Components
 startup
 {
 	vars.finalDrop = false;
+	vars.onTitle = false;
 	vars.garbName = "";
 	vars.oldGarbName = "";
 	
@@ -188,7 +189,9 @@ update
 {
 	if (version != "2021") return false;	// unsupported build: no start, split or load removal
 	
-	refreshRate = current.ingame == 255 ? 240 : 60;
+	// ingame is 255 on the title but stays 0 after the title's config screen; 100 or 110 in game.
+	vars.onTitle = current.ingame != 100 & current.ingame != 110;
+	refreshRate = vars.onTitle ? 240 : 60;
 	
 	vars.oldGarbName = vars.garbName;	// split runs after update, so take the previous name here
 	string nm = "";
@@ -300,7 +303,7 @@ start
 	// UI sounds in the same frame, so the voice count jumps by 3 (every other menu input adds 1,
 	// and Cancel on the same dialog also fades begin 134 -> 131 or 138 -> 135). Measured 7-16 ms
 	// after the key press, one frame before the fade.
-	if (current.ingame == 255 & (old.begin == 134 | old.begin == 138) & current.sfxVoices - old.sfxVoices >= 2)
+	if (vars.onTitle & (old.begin == 134 | old.begin == 138) & current.sfxVoices - old.sfxVoices >= 2)
 	{
 		vars.split = false;
 		vars.daysplit = false;
