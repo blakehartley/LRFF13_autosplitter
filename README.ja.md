@@ -20,13 +20,13 @@ Roostaさん([@blakehartley](https://github.com/blakehartley))が作成し、[@a
 2. **Settings**で、スプリットタイミングのチェックボックスのON/OFFを切り替える
 3. ONにした数だけ区間を作り、並べる
 
+[RTAGamers](https://rtagamers.com/rta-tools/autotimer/#toc7)さんが画像付きで解説してくれています。
+
 Any%用のサンプルとして、そのまま使えるlssファイルも置いています。読み込んだら、**Settings**で対応するスプリットをONにしてください。
 
 - [lrff13_any_sample.lss](lrff13_any_sample.lss)(英語)
 - [lrff13_any_sample_ja.lss](lrff13_any_sample_ja.lss)(日本語)
 - [lrff13_any_sample_enja.lss](lrff13_any_sample_enja.lss)(英語・日本語の併記)
-
-[RTAGamers](https://rtagamers.com/rta-tools/autotimer/#toc7)さんが画像付きで解説してくれています。
 
 スプリットが数フレーム遅れて見えるときは、LiveSplit本体のリフレッシュレート(右クリック → Settings → Refresh Rate)を60以上に上げてみてください。
 

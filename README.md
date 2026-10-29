@@ -23,15 +23,15 @@ Created by Roosta ([@blakehartley](https://github.com/blakehartley)) and taken o
 2. In **Settings**, turn the checkboxes for the split points on or off
 3. Make as many segments as the splits you turned on, and put them in order
 
+[RTAGamers](https://rtagamers.com/rta-tools/autotimer/#toc7) explains the steps with screenshots
+(in Japanese).
+
 Ready-to-use sample .lss files for Any% are also included. After loading one, turn on the
 matching splits in **Settings**.
 
 - [lrff13_any_sample.lss](lrff13_any_sample.lss) (English)
 - [lrff13_any_sample_ja.lss](lrff13_any_sample_ja.lss) (Japanese)
 - [lrff13_any_sample_enja.lss](lrff13_any_sample_enja.lss) (English and Japanese)
-
-[RTAGamers](https://rtagamers.com/rta-tools/autotimer/#toc7) explains the steps with screenshots
-(in Japanese).
 
 If the splits look a few frames late, try raising LiveSplit's own refresh rate
 (right click → Settings → Refresh Rate) to 60 or more.
